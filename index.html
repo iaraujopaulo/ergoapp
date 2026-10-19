@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0f1226">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>ErgoApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div id="fileWarning" class="file-warning" role="alert" hidden>
+    <strong><i class="fas fa-triangle-exclamation"></i> O ErgoApp não funciona abrindo o arquivo direto do disco.</strong>
+    <p>O navegador bloqueia os módulos JavaScript em endereços <code>file://</code>. Rode um servidor local na pasta do projeto e abra o endereço <code>http://localhost:8000</code>:</p>
+    <pre>python -m http.server 8000</pre>
+    <p>Também funciona com a extensão Live Server do VS Code ou publicando no GitHub Pages.</p>
+  </div>
+  <script>
+    if (location.protocol === 'file:') {
+      document.getElementById('fileWarning').hidden = false;
+    }
+  </script>
+
+  <header>
+    <h1>ErgoApp</h1>
+    <p>Análise ergonômica automatizada com o método RULA</p>
+  </header>
+
+  <main>
+    <section id="image-upload-section">
+      <h2><i class="fas fa-upload"></i> Enviar arquivo</h2>
+      <div class="upload-container">
+        <label for="imageUpload" class="upload-button"><i class="fas fa-image"></i> Imagem</label>
+        <input type="file" id="imageUpload" accept="image/*" hidden>
+        <label for="videoUpload" class="upload-button"><i class="fas fa-video"></i> Vídeo</label>
+        <input type="file" id="videoUpload" accept="video/*" hidden>
+      </div>
+      <p id="modelStatus" class="model-status loading" role="status"><i class="fas fa-spinner fa-spin"></i> Carregando modelo de IA…</p>
+      <div id="imageContainer" class="image-container">
+        <i class="fa-solid fa-cloud-arrow-up drop-icon"></i>
+        <p id="uploadHint">Envie uma imagem ou um vídeo para iniciar a análise</p>
+      </div>
+    </section>
+    
+    <section id="demos" class="invisible">
+      <div id="detectionInfo" class="detection-info" style="display: none;"></div>
+      <div id="resultContainer" class="result-container">
+        <div id="imageResult"></div>
+        <div id="videoResult" style="display: none;">
+          <video id="video" controls></video>
+        </div>
+        <canvas id="output_canvas" class="canvas"></canvas>
+      </div>
+      <div id="landmarkInfo" class="landmark-info" style="display: none;"></div>
+      <div id="videoControls" style="display: none;">
+        <button id="playPauseButton" class="control-button" data-state="play"><i class="fas fa-play"></i> Play</button>
+        <button id="prevFrameButton" class="control-button"><i class="fas fa-step-backward"></i> Prev Frame</button>
+        <button id="nextFrameButton" class="control-button"><i class="fas fa-step-forward"></i> Next Frame</button>
+        <div id="frameCounter">Frame: 0/0</div>
+      </div>
+      <div id="rulaAnalysis" class="rula-analysis" style="display: none;"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Powered by MediaPipe | <i class="fas fa-code"></i> Análise de postura assistida por IA</p>
+  </footer>
+
+  <script type="module" src="config.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
